@@ -1,0 +1,19 @@
+<hd-layout>
+  <h1>First post!</h1>
+  <p>Here we go again. I have things to say. In the past, I've said them on a variety of platforms now lost to <a href=https://en.wikipedia.org/wiki/Enshittification>enshittification</a>. This time is different. I bought a domain, and in the tradition of my people (web developers) I built yet another fucking blog.</p>
+
+  <h2>HTML, CSS, and JS</h2>
+  <p>The idea of using web technology to build a website just makes good sense to me personally. Most agree it is a good idea to start with the simplest thing that could possibly work and then iterate from there. From this perspective, it is hard to argue against basic web tech, the simplest thing that could work for building a website is HTML, CSS, and JavaScript. The technology is boring, no compile steps or dependency hell, and it will likely last longer than I will.</p>
+
+  <p><a href=https://blog.jim-nielsen.com/2023/html-web-components/>HTML web components</a> are a really nice way to customize native HTML. I'm using <a href=https://enhance.dev>Enhance HTML framework</a> to server-side render standard web components. This has some nice benefits. <strong>View source just works!</strong> Devtools are platform native. Regular HTML will always perform better and last longer than userland code faking out components with generated div soup.</p>
+
+  <p>I'm hosting this website on Amazon Web Services (AWS) via my startup <a href=https://begin.com>Begin</a>. There are many ways to host a website but I'm particularily fond of stable platforms and AWS is incredibly stable. Like web technology, I expect it to continue to be rock solid for years to come. They are the market leader for a variety of reasons so, similar to web tech, I think they make a very good default choice.</p>
+
+  <h2>Static or Dynamic?</h2>
+  <p>Why choose between static and dynamic content when you can have both? This blog dynamically renders content via a Lambda function through API Gateway, with <code>cache-control</code> headers ensuring that most visitors experience the speed of static, pre-rendered assets. This approach offers viewers the best possible experience without the drawbacks of build-time complexities or run-time delays often associated with adding dynamic features.</p>
+
+  <h2>Next Steps</h2>
+  <p>As mentioned, I have a lot to say, but I want to hear from you too. My next goal is to implement <a href=https://webmention.io/>Web Mention</a> support.
+  <hd-avatar>March 29, 2024</hd-avatar>
+</hd-layout>
+
