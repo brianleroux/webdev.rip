@@ -5,6 +5,6 @@ export async function get () {
   return {
     headers: {
       'cache-control': cacheControl,
-    }
+    },
   }
 }
