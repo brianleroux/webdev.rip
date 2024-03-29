@@ -16,12 +16,17 @@
     width:60px;
     max-height: 60px;
   }
+  a.p-name {
+    font-weight:bolder;
+    text-decoration:none;
+	  color: var(--foreground);
+  }
 </style>
 
-<section>
-<img src=/_public/me.jpeg>
+<section class=h-card>
+<img class=u-photo src=/_public/me.jpeg>
 <div>
-  <div>Posted by <strong>Brian LeRoux</strong> on <strong><slot></slot></strong></div>
+  <div>Posted by <a class="p-name u-url" href=https://webdev.rip/about>Brian LeRoux</a> <strong><slot></slot></strong></div>
   <div>Follow me • <a href=https://indieweb.social/@brianleroux>Mastodon</a> • <a href=https://github.com/brianleroux/webdev.rip>GitHub</a></div>
 </div>
 </section>
