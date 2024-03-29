@@ -4,6 +4,7 @@ let css = `
 	--background: #f8f9fa;
 	--link: #0b7285;
 	--accent: #868e96;
+  --accent2: #ccc;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -12,6 +13,7 @@ let css = `
 		--background: #222;
 		--link: #99e9f2;
 		--accent: #ced4da;
+    --accent2: #666;
 	}
 }
 

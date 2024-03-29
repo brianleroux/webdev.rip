@@ -1,4 +1,4 @@
-export async function post (req) {
+export async function post () {
   return {
     status: 500
   }

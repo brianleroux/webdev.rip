@@ -1,32 +1,32 @@
 <style>
-  section {
-    display: flex;
-    font-size: smaller;
-    color:#666;
-    background: var(--background);
-    border-radius:30px;
-    padding:3px;
-  }
-  section > div {
-    margin: 10px;
-  }
-  img {
-    border:2px solid white;
-    border-radius: 30px;
-    width:60px;
-    max-height: 60px;
-  }
-  a.p-name {
-    font-weight:bolder;
-    text-decoration:none;
-	  color: var(--foreground);
-  }
+section {
+  display: flex;
+  font-size: smaller;
+  color: #666;
+  background: var(--background);
+  border-radius: 30px;
+  padding: 3px;
+}
+section > div {
+  margin: 10px;
+}
+img {
+  border: 2px solid white;
+  border-radius: 30px;
+  width: 60px;
+  max-height: 60px;
+}
+a.p-name {
+  font-weight: bolder;
+  text-decoration: none;
+  color: var(--foreground);
+}
 </style>
 
 <section class="h-card p-author">
-<img class=u-photo src=/_public/me.jpeg>
-<div>
-  <div>Posted by <a class="p-name u-url" href=https://webdev.rip/about>Brian LeRoux</a> <strong class=dt-published><slot></slot></strong></div>
-  <div>Follow me • <a href=https://indieweb.social/@brianleroux>Mastodon</a> • <a href=https://github.com/brianleroux/webdev.rip>GitHub</a></div>
-</div>
+  <img class=u-photo alt="Selfie of Brian LeRoux sitting with his cat Sutr0" src=/_public/me.jpeg>
+  <div>
+    <div>Posted by <a class="p-name u-url" href=https://webdev.rip/about>Brian LeRoux</a> <strong class=dt-published><slot></slot></strong></div>
+    <div>Follow me • <a href=https://indieweb.social/@brianleroux>Mastodon</a> • <a href=https://github.com/brianleroux/webdev.rip>GitHub</a></div>
+  </div>
 </section>
