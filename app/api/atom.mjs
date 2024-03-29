@@ -6,7 +6,7 @@ export async function get () {
   let entries = data.meta.map(m => {
     return `<entry>
       <title>${ m.title }</title>
-      <link href="https://${data.domain}/${m.link}"/>
+      <link href="https://${data.domain}${m.link}"/>
       <updated>${m.date}T02:40:00Z</updated>
       <summary>${m.summary}</summary>
     </entry>`
