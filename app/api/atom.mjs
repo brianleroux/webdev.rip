@@ -14,6 +14,7 @@ export async function get () {
   return {
     headers: {
       'content-type': 'application/atom+xml',
+      'cache-control': 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0'
     },
     body: `<?xml version="1.0" encoding="utf-8"?>
 <feed xmlns="http://www.w3.org/2005/Atom">
