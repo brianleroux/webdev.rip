@@ -117,7 +117,12 @@ export default function head (req) {
 <head>
   <title>webdev.rip</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" href="/_public/favicon.svg">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/_public/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/_public/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/_public/favicon-16x16.png">
+  <link rel="manifest" href="/_public/site.webmanifest">
+
   <meta name="description" content="Musings about webdev.">
   <meta property=og:title content="webdev.rip - a web developers blog by Brian LeRoux">
   <meta property=og:type content=website>
