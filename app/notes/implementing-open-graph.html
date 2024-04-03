@@ -1,0 +1,116 @@
+<hd-article>
+  <p>These days blog posts get discovered primarily on social media and if you want to leave a good impression <a href=https://ogp.me/>Open Graph (OG)</a> images add a nice touch of polish. This is an indieweb blog and in true DIY fashion I wanted to implement OG support myself. </p>
+
+  <p>I started out by creating a plausibly decent background image with my avatar (and my cat Sutr0). Nothing helps build credability more than a friendly cat picture on the internet. I used the open source image editor <a href=https://krita.org/en/>Krita</a> to create a jpeg. That part was easy at least.</p>
+
+  <h2>Programmmic Image Manipulation</h2>
+  <p>In theory, my chosen platform of AWS Lambda is really fucking good at tweaking images. Streaming from S3 was one of the original serverless use cases. In the olden days the AWS Lambda runtime had a copy of ImageMagick just chilling there for you to use. These days, its up to you to figure out how you want to manipulate images. I do not want to get native code involved, because this <a href=/notes/the-problem-with-solutions>cascades into other issues</a>, so I started evaluating pure JS image manipulation implementations.</p>
+
+  <p>I started out with <a href=https://github.com/joshmarinacci/node-pureimage>PureImage</a> which felt promising at first but became quickly clear while it may be "pure" JS output the source was TypeScript and despite the myriad dist options the module wasn't loading with a basic Node 20.x esmodule; while possible to maybe add another compilation pass to fix it I wasn't interested in compounding the problem with more tangentially related solutions.</p>
+
+  <p>My second pass was with the <a href=https://github.com/jimp-dev/jimp>JIMP</a> library. While it too has all the transpiling shenanigans the distribution worked without issue in a basic Node esmodule. Back in business! Similar to so many other libraries these days this one is also huge on disk but I'm not concerned about coldstart performance here as we'll be putting the OG images in a completely isolated Lambda function that isn't user facing.</p>
+
+  <p>The handler code for serving an image dynamically is pretty clear: </p>
+
+<hd-code type=javascript>
+import preflight from '@architect/views/preflight.mjs'
+import arc from '@architect/functions'
+import render from './render.mjs'
+
+export let handler = arc.http(fn)
+
+async function fn (req) {
+
+  let title = req.params.title
+  let data = await preflight(req)
+  let meta = data.meta.find(e => e.link === `/notes/${ title }`)
+
+  if (!meta) return {
+    code: 404, 
+    html: `Could not find: ${ title }` 
+  }
+
+  let out = await render({ 
+    title: meta.title, 
+    link: `https://webdev.rip${ meta.link }`, 
+    summary: meta.summary, 
+    author: 'Brian LeRoux',
+    published:  'Posted on ' + new Intl.DateTimeFormat('en-US', {dateStyle: 'long'}).format(new Date(meta.date)), 
+  })
+
+  return {
+    statusCode: 200,
+    headers: { 
+      'content-type': 'image/jpeg', 
+      'cache-control': 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0' 
+    },
+    isBase64Encoded: true,
+    body: out.toString('base64')
+  } 
+}
+</hd-code>  
+
+<p>The <code>render</code> function implementation is where the image drawing logic lives:</p>
+
+<hd-code type=javascript>
+import jimp from 'jimp'
+import fs from 'node:fs'
+import path from 'node:path'
+
+export default async function render ({title, link, summary, author, published }) {
+
+  const dir = import.meta.dirname
+  const base = path.join(dir, 'og-image.jpg')
+  const img = await jimp.read(base)
+  const serif = await jimp.loadFont(path.join(dir, `calistoga-white-72.fnt`))
+  const sans = await jimp.loadFont(jimp.FONT_SANS_32_WHITE)
+  const sansmol = await jimp.loadFont(jimp.FONT_SANS_16_WHITE) 
+
+  // write the title
+  img.print(serif, 60, 60, title)
+
+  // draw the summary; maybe doing a cheesy line wrap
+  let tokens = summary.split(/\s+/)
+  let max = 10
+  let y = 180
+
+  if (tokens.length > max) {
+    let lines = []
+    for (let i = 0; i < tokens.length; i += max) {
+      lines.push(tokens.slice(i, i + max))
+    }
+    for (let line of lines) {
+      img.print(sans, 60, y, line.join(' '))
+      y += 32
+    }
+  }
+  else {
+    img.print(sans, 60, y, summary)
+  }
+
+  // draw the footer stuff
+  img.print(serif, 320, 400, author)
+  img.print(sansmol, 320, 480, published)
+  img.print(sans, 320, 512, link)
+
+  return img.getBufferAsync(jimp.MIME_JPEG)
+}
+</hd-code>  
+
+<p>Maybe the hardest part was creating my own cheesy line wrap function. 😂 Otherwise, I wanted a slightly nicer title typeface so I used <a href=https://snowb.org/>SnowB</a> to transform <a href=https://fonts.google.com/specimen/Calistoga>Calistoga TTF</a> into a BMP font. You can browse all the <a href=https://github.com/brianleroux/webdev.rip/tree/main/og-img>Lambda source code here</a>.</p>
+
+<h2>Syntax Highlighting Side Quest</h2>
+<p>Upon realizing I wanted to write a blog post about my incredible OG journey the concept of syntax highlighting suddenly became a requirement. Classic moment of software discovery. Similar to image manipulation there are legions of syntax highlighting solutions within the JS ecosystem. Here too, <a href=https://en.wikipedia.org/wiki/Sturgeon%27s_law>Sturgeons Law</a> rules, where 90% of them are, respectfully, bloated crapware. I settled on <a href=https://prismjs.com/>Prism</a>. It's light, fluffy, well supported, battle tested, and runs completely server-side so I don't need to pollute my client-side with a bunch of janky DOM manipulations. View source on this page to see my custom <code>&lt;hd-code&gt;&lt;/hd-code&gt;</code> element for syntax highlighting. Side quest completed!</p>
+
+<h2>Final Boss</h2>
+<p>The final boss for implementing OG is adding a handful of <code>meta</code> elements to the <a href=https://github.com/brianleroux/webdev.rip/blob/main/app/head.mjs#L140">head</a>.</p>
+
+<hd-code type=html>
+&lt;meta property=og:title content=&quot;webdev.rip - a web developers blog by Brian LeRoux&quot;&gt;
+&lt;meta property=og:type content=website&gt;
+&lt;meta property=og:url content=https://webdev.rip/notes/implementing-open-graph&gt;
+&lt;meta property=og:image content=https://webdev.rip/og-img/implementing-open-graph&gt;</hd-code>  
+
+<p>And thats it!</p>
+
+</hd-article>

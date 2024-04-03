@@ -30,6 +30,7 @@
   "dependencies": {
     "@architect/sandbox": "^6.0.2",
     "@enhance/arc-plugin-enhance": "^10.0.0",
-    "@enhance/image": "^1.0.0"
+    "@enhance/image": "^1.0.0",
+    "prismjs": "^1.29.0"
   }
 }

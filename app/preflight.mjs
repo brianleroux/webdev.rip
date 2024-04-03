@@ -26,6 +26,13 @@ export default function preflight () {
         tags: ['retrogaming'],
         date: '2024-04-01' 
       },
+      {  
+        title: 'Implementing Open Graph', 
+        summary: 'Building out dynamic Open Graph images with AWS Lambda.',
+        link: '/notes/implementing-open-graph', 
+        tags: ['webdev', 'opengraph', 'serverless'],
+        date: '2024-04-03' 
+      },
     ]
   }
 }

@@ -5,6 +5,8 @@ let css = `
 	--link: #0b7285;
 	--accent: #868e96;
   --accent2: #ccc;
+  --token-keyword: #cc99cd;
+  --token-string: #7ec699;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -14,6 +16,8 @@ let css = `
 		--link: #99e9f2;
 		--accent: #ced4da;
     --accent2: #666;
+    --token-keyword: #c046c1;
+    --token-string: #388354;
 	}
 }
 
@@ -85,28 +89,6 @@ hr {
 	height: 1px;
 	background: #333;
 	margin: 2em 0;
-}
-
-code {
-	padding: .1em .15em;
-	border: 1px solid var(--accent);
-  border-radius:5px;
-	white-space: pre-wrap;
-	word-wrap: break-word;
-}
-
-pre, code {
-	font-family: 'MD IO 0.4';
-	font-size: 90%;
-}
-
-pre code {
-	background:  #000;
-	color:  #eee;
-	display: inline-block;
-	padding: .8em;
-	white-space: pre-wrap;
-	word-wrap: break-word;
 }
 
 img {
