@@ -1,5 +1,6 @@
 {
   "dependencies": {
+    "@architect/functions": "^8.1.0",
     "jimp": "^0.22.12"
   }
 }
