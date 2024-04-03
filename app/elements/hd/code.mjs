@@ -30,19 +30,13 @@ export default function code ({html, state}) {
 	hyphens: none;
   display:block;
   background: var(--foreground);
+	overflow: scroll;
 }
 
 /* Code blocks */
 pre[class*="language-"] {
   padding:0;/* 1em;*/
   margin: /*.5em*/ 0;
-	overflow: auto;
-}
-
-:not(pre) > code[class*="language-"],
-pre[class*="language-"] {
-	background: #2d2d2d;
-	background: black;
 }
 
 /* Inline code */
