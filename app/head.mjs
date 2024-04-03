@@ -127,7 +127,9 @@ td, th {
 }
 `
 
-export default function head () {
+export default function head (req) {
+  let og = req.store.note? req.store.link.replace('notes', 'og-img') : '/_public/og-image-default.jpg'
+  let link = req.store.note? req.store.link : (req.req.path || '')
   return `<!DOCTYPE html>
 <html lang="en">
 <head>
@@ -135,6 +137,10 @@ export default function head () {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <link rel="icon" href="/_public/favicon.svg">
   <meta name="description" content="Musings about webdev.">
+  <meta property=og:title content="webdev.rip - a web developers blog by Brian LeRoux">
+  <meta property=og:type content=website>
+  <meta property=og:url content=https://webdev.rip${ link }>
+  <meta property=og:image content=https://webdev.rip${ og }>
   <style>${css}</style>
 </head>`
 }
