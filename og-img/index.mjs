@@ -27,7 +27,7 @@ async function fn (req) {
     statusCode: 200,
     headers: { 
       'content-type': 'image/jpeg', 
-      'cache-control': 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0' 
+      'cache-control': 'max-age=1800' // 30m cache 
     },
     isBase64Encoded: true,
     body: out.toString('base64')
