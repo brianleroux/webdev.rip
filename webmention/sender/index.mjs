@@ -58,13 +58,11 @@ export async function handler () {
         })
       }
      
-      /*
       // once the post is processed add a row in the db so we don't check again
       await db.webmentions.put({
         source,
         target: post.date
       }) 
-      */
     }
   }
 }
