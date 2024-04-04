@@ -20,6 +20,7 @@ export async function handler () {
 
     // full url for a post
     let source = 'https://webdev.rip' + post.link
+    let modified = post.update || post.date
 
     // see if the post is in the db (source: url, target: date)
     let record = await db.webmentions.query({
@@ -30,7 +31,7 @@ export async function handler () {
       },
       ExpressionAttributeValues: {
         ':source': source,
-        ':target': post.date
+        ':target': modified
       }
     })
 
@@ -61,9 +62,8 @@ export async function handler () {
       // once the post is processed add a row in the db so we don't check again
       await db.webmentions.put({
         source,
-        target: post.date
+        target: modified 
       }) 
     }
   }
 }
-

@@ -17,5 +17,5 @@ async function send ({ source, target, endpoint }) {
     })).toString()
   })
 
-  console.log(res)
+  console.log(endpoint, res.status)
 }
