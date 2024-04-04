@@ -3,7 +3,7 @@
   "version": "0.1.4",
   "scripts": {
     "start": "sandbox --quiet",
-    "lint": "eslint ./app/**/*.mjs --fix"
+    "lint": "eslint ./**/*.mjs --fix"
   },
   "devDependencies": {
     "@enhance/cli": "^1.0.7",

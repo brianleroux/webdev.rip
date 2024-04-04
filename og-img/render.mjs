@@ -1,5 +1,4 @@
 import jimp from 'jimp'
-import fs from 'node:fs'
 import path from 'node:path'
 
 export default async function render ({title, link, summary, author, published }) {
