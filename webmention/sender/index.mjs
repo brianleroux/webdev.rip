@@ -1,4 +1,4 @@
-import { tables, events } from '@architect/functions'
+import arc from '@architect/functions'
 import getLinks from './get-links.mjs'
 import discover from './discover.mjs'
 
@@ -9,7 +9,7 @@ export async function handler () {
     return
 
   // grab a ddb client to use later
-  let db = await tables()
+  let db = await arc.tables()
 
   // read all posts from api endpoint
   let posts = await (await fetch('https://webdev.rip/notes', {
@@ -47,7 +47,7 @@ export async function handler () {
 
     // send mentions to every link with an endpoint
     for (let link of Object.keys(endpoints)) {
-      await events.publish({
+      await arc.events.publish({
         name: 'webmention-send',
         payload: { source, target: link, endpoint: endpoints[link] }
       })
