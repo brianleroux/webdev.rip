@@ -5,7 +5,7 @@
 
   <p>I started out by creating a plausibly decent background image with my avatar (and my cat Sutr0). Nothing helps build credability more than a friendly cat picture on the internet. I used the open source image editor <a href=https://krita.org/en/>Krita</a> to create a jpeg. That part was easy at least.</p>
 
-  <h2>Programmmic Image Manipulation</h2>
+  <h2>Programmatic Image Manipulation</h2>
   <p>In theory, my chosen platform of AWS Lambda is really fucking good at tweaking images. Streaming from S3 was one of the original serverless use cases. In the olden days the AWS Lambda runtime had a copy of ImageMagick just chilling there for you to use. These days, its up to you to figure out how you want to manipulate images. I do not want to get native code involved, because this <a href=/notes/the-problem-with-solutions>cascades into other issues</a>, so I started evaluating pure JS image manipulation implementations.</p>
 
   <p>I started out with <a href=https://github.com/joshmarinacci/node-pureimage>PureImage</a> which felt promising at first but became quickly clear while it may be "pure" JS output the source was TypeScript and despite the myriad dist options the module wasn't loading with a basic Node 20.x esmodule; while possible to maybe add another compilation pass to fix it I wasn't interested in compounding the problem with more tangentially related solutions.</p>
