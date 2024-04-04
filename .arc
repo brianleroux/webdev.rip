@@ -40,15 +40,16 @@ webmention-receive
   src webmention/receive
 
 @tables
-# find all mentions send from webdev.rip/blah (:source = #source)
+# find if we send mentions for a given post
 webmentions
-  source * # webdev.rip/notes/first-post#2024-03-29 
-  target ** # example.com/foo
-  # endpoint (string of discovered endpoint)
-  # verified (default 'unverified'; attr removed for moderation)
+  source * # webdev.rip/notes/first-post
+  target ** # 2024-03-29 
 
 @indexes
-# find all mentions sent to webdev.rip (:target = #target)
+# find all mentions received (target = webdev.rip)
 webmentions
   target *
   source **
+
+webmentions
+  status *
