@@ -34,30 +34,38 @@ export async function handler () {
       }
     })
 
-    // read full html text for post url
-    let html = await (await fetch(source)).text()
+    // only send mentions if we haven't already
+    if (record.Count === 0) { 
 
-    // get all the links in the page
-    let links = getLinks(html)
-
-    // find webmention endpoint for links if they exist
-    let endpoints = {}
-    for (let link of links) {
-      let found = await discover(link)
-      if (found) endpoints[link] = found
+      // read full html text for post url
+      let html = await (await fetch(source)).text()
+     
+      // get all the links in the page
+      let links = getLinks(html)
+     
+      // find webmention endpoint for links if they exist
+      let endpoints = {}
+      for (let link of links) {
+        let found = await discover(link)
+        if (found) endpoints[link] = found
+      }
+     
+      // send mentions to every link with an endpoint
+      for (let link of Object.keys(endpoints)) {
+        await arc.events.publish({
+          name: 'webmention-send',
+          payload: { source, target: link, endpoint: endpoints[link] }
+        })
+      }
+     
+      /*
+      // once the post is processed add a row in the db so we don't check again
+      await db.webmentions.put({
+        source,
+        target: post.date
+      }) 
+      */
     }
-
-    console.log({source, record, links, endpoints})
-
-    // send mentions to every link with an endpoint
-    for (let link of Object.keys(endpoints)) {
-      await arc.events.publish({
-        name: 'webmention-send',
-        payload: { source, target: link, endpoint: endpoints[link] }
-      })
-    }
-
-    // once the post is processed add a row in the db so we don't check again
   }
 }
 

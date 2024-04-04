@@ -1,5 +1,7 @@
-// learn more about event functions here: https://arc.codes/events
-export async function handler (event) {
-  console.log(JSON.stringify(event, null, 2))
-  return
+import arc from '@architect/functions'
+
+export let handler = arc.events.subscribe(send)
+
+async function send (event) {
+  console.log('received payload to send', event)
 }
