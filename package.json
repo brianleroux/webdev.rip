@@ -1,6 +1,6 @@
 {
   "name": "begin-app",
-  "version": "0.1.14",
+  "version": "0.1.15",
   "scripts": {
     "start": "sandbox --quiet",
     "lint": "eslint ./**/*.mjs --fix"
