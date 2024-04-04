@@ -59,6 +59,7 @@ function cleanHeader(src, h) {
     bits.shift()
     return src + '/' + bits.join('/')
   }
+  // cannonical path
   return raw
 }
 
@@ -73,6 +74,6 @@ function cleanTag(src, raw) {
     bits.shift()
     return src + '/' + bits.join('/')
   }
-  // full raw path
+  // cannonical path
   return raw
 }
