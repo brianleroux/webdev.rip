@@ -23,14 +23,16 @@ export async function handler () {
 
     // see if the post is in the db (source: url, target: date)
     let record = await db.webmentions.query({
-      KeyConditionExpression: 'source = :source and target = :target',
+      KeyConditionExpression: '#source = :source and #target = :target',
+      ExpressionAttributeNames: {
+        '#source': 'source',
+        '#target': 'target'
+      },
       ExpressionAttributeValues: {
         ':source': source,
         ':target': post.date
       }
     })
-
-    console.log({record})
 
     // read full html text for post url
     let html = await (await fetch(source)).text()
@@ -44,6 +46,8 @@ export async function handler () {
       let found = await discover(link)
       if (found) endpoints[link] = found
     }
+
+    console.log({source, record, links, endpoints})
 
     // send mentions to every link with an endpoint
     for (let link of Object.keys(endpoints)) {
