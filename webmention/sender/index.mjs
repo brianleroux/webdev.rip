@@ -1,4 +1,5 @@
 export async function handler () {
+  console.log('hi from webmention/sender handler')
   let req = await fetch('https://webdev.rip/notes')
   let posts = await req.json()
   console.log(posts)
