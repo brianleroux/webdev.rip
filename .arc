@@ -40,16 +40,24 @@ webmention-receive
   src webmention/receive
 
 @tables
-# find if we send mentions for a given post
+# find all mentions we sent by post and date (or update)
 webmentions
-  source * # webdev.rip/notes/first-post
-  target ** # 2024-03-29 
+  source *  # String # webdev.rip/notes/first-post
+  target ** # String # 2024-03-29 
+  #status   # String # xxxxxxxx
+  #verified # String # unverified
+  #created  # String # 2024-04-04
 
 @indexes
-# find all mentions received (target = webdev.rip)
+# find all mentions we received (target = webdev.rip)
 webmentions
   target *
   source **
 
+# find a webmention by status id
 webmentions
   status *
+
+# find webmentions that have not been verified (verified = 'unverified')
+webmentions
+  verified * 

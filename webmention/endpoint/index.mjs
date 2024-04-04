@@ -3,18 +3,30 @@ import idx from 'nanoid'
 
 export let handler = arc.http(endpoint)
 
+/** helper to check for valid url */
+function valid (url) {
+  try {
+    new URL(url)
+    return true
+  } 
+  catch (err) {
+    return false
+  }
+}
+
+/** receives webmentions */
 export async function endpoint (req) {
 
   let { source, target } = req.body
 
   // must check for valid urls
-  if (isValid(source) === false || isValid(target) === false) {
+  if (valid(source) === false || valid(target) === false) {
     return {
       code: 400,
     }
   }
 
-  // must ensure not creating an infinate loop!
+  // source cannot be same as target
   let src = new URL(source)
   let tar = new URL(target)
   if (src.host === tar.host && src.pathname.replace(/\/+$/g, '') === tar.replace(/\/+$/g, '')) {
@@ -23,34 +35,35 @@ export async function endpoint (req) {
     }
   }
 
-  // async process the mention
-  const status = idx.nanoid(8)
+  // TODO check if the target is a valid post
+  console.log(req)
 
-  await db.webmentions.put({
-    source, target, status
-  }) 
+  // create our webmention
+  const webmention = {
+    source,
+    target,
+    status: idx.nanoid(8),
+    verified: 'unverified',
+    created: new Date(Date.now()).toISOString()
+  }
 
-  await arc.events.publish({
-    name: 'webmention-receive',
-    payload: { source, target, status }
-  })
+  await Promise.all([
+
+    // write the webmention to the database
+    db.webmentions.put(webmention),
+
+    // async process the webmention further
+    arc.events.publish({
+      name: 'webmention-receive',
+      payload: webmention 
+    })
+  ])
 
   return {
     statusCode: 201,
     headers: {
       'cache-control': 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0',
-      'location': `https://webdev.rip/webmention/${ status }`
+      'location': `https://webdev.rip/webmention/${ webmention.status }`
     }
-  }
-}
-
-/** helper to check for valid url */
-function isUrlValid (url) {
-  try {
-    new URL(url)
-    return true
-  } 
-  catch (err) {
-    return false
   }
 }
