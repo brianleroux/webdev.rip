@@ -22,7 +22,7 @@ export async function handler () {
     let source = 'https://webdev.rip' + post.link
 
     // see if the post is in the db (source: url, target: date)
-    let record = await data.webmentions.query({
+    let record = await db.webmentions.query({
       KeyConditionExpression: 'source = :source and target = :target',
       ExpressionAttributeValues: {
         ':source': source,
