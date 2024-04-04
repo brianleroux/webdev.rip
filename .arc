@@ -27,7 +27,7 @@ enhance/arc-image-plugin
 @scheduled
 # checks to see if there are webmentions to send
 webmention-sender
-  cron 0/5 8-17 ? * MON-FRI * # run every 5min between 8a and 5:55p from mon-fri
+  cron 0/5 15-1 ? * MON-FRI * # run every 5min between 8a and 5:55p (PT) from mon-fri
   src webmention/sender
 
 @events
