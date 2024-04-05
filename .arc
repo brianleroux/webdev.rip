@@ -59,5 +59,5 @@ webmentions
   status *
 
 # find webmentions that have not been verified (verified = 'unverified')
-#webmentions
-#  verified * 
+webmentions
+  verified * 
