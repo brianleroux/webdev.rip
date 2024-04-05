@@ -78,14 +78,19 @@ customElements.define('admin-ui', class Admin extends HTMLElement {
       let data = new FormData(target)
       let body = new URLSearchParams(data).toString()
       console.log(qs)
-      let res = await fetch('/webmention', { 
-        method: 'post',
-        headers: {
-          'content-type': 'application/x-www-form-urlencoded;charset=UTF-8'
-        },
-        body
-      })
-      console.log(res)
+      try {
+        let res = await fetch('/webmention', { 
+          method: 'post',
+          headers: {
+            'content-type': 'application/x-www-form-urlencoded;charset=UTF-8'
+          },
+          body
+        })
+        console.log(res)
+      }
+      catch (e) {
+        console.log(e)
+      }
     }
   }
 })
