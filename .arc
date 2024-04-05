@@ -48,16 +48,16 @@ webmentions
   #verified # String # unverified
   #created  # String # 2024-04-04
 
-@indexes
+@tables-indexes
 # find all mentions we received (target = webdev.rip)
 webmentions
   target *
   source **
 
 # find a webmention by status id
-webmentions
-  status *
+#webmentions
+#  status *
 
 # find webmentions that have not been verified (verified = 'unverified')
-webmentions
-  verified * 
+#webmentions
+#  verified * 
