@@ -1,14 +1,23 @@
 import arc from '@architect/functions'
 import preflight from '../preflight.mjs'
 
-export async function get (req) {
+export let post = [auth, write]
+export let get = [auth, read]
 
-  // ensure the current session is logged in
+/** ensure the current session is logged in */
+async function auth (req) {
   let loggedIn = req.session.loggedIn
   if (!loggedIn) {
-    return { json: loggedIn }
+    return { 
+      json: { loggedIn }
+    }
   }
+}
 
+/** load mentions to verify manually */
+async function read (req) {
+
+  let loggedIn = req.session.loggedIn
   let data = await preflight()
   let db = await arc.tables()
 
@@ -34,5 +43,16 @@ export async function get (req) {
       debug: true,
       loggedIn, 
     }
+  }
+}
+
+/** currently...a place to send payloads to webmention-receive */
+async function write (req) {
+  await arc.events.publish({
+    name: 'webmention-receive',
+    payload: req.body 
+  }) 
+  return { 
+    json: { loggedIn: req.session.loggedIn }
   }
 }

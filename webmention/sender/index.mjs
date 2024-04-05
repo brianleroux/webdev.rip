@@ -23,29 +23,14 @@ export async function handler () {
     let modified = post.update || post.date
 
     // see if the post is in the db (source: url, target: date)
-    console.time('query') 
-    let record = await db.webmentions.query({
-      KeyConditionExpression: '#source = :source and #target = :target',
-      ExpressionAttributeNames: {
-        '#source': 'source',
-        '#target': 'target'
-      },
-      ExpressionAttributeValues: {
-        ':source': source,
-        ':target': modified
-      }
-    })
-    console.timeEnd('query') 
-    console.time('getItem') 
-    let r2 = await db.webmentions.get({
+    // get is 10x faster than query... 3ms instead of 30ms
+    let record = await db.webmentions.get({
       source: source,
       target: modified
     })
-    console.timeEnd('getItem') 
-    console.log(r2)
 
     // only send mentions if we haven't already
-    if (record.Count === 0) { 
+    if (record) { 
 
       // read full html text for post url
       let html = await (await fetch('https://' + source)).text()
