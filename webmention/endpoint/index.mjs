@@ -24,7 +24,7 @@ async function verify (req) {
       }
     }
   }
-  catch () {
+  catch {
     // new URL throws if a URL is invalid
     return {
       code: 400,
