@@ -67,7 +67,7 @@ export default function ui ({ html, state }) {
   <hd-debug></hd-debug>
 </section> 
 
-<script>
+<script type=module>
   import Admin from '/_public/browser/admin-ui.mjs'
   customElements.define('admin-ui', Admin)
 </script>`
