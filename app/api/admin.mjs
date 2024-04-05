@@ -9,6 +9,7 @@ export async function get (req) {
   // load webmentions to verify
   let db = await arc.tables()
   let webmentions = await db.webmentions.query({
+    IndexName: 'webmentions-status',
 
   })
 

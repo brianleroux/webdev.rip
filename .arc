@@ -55,8 +55,8 @@ webmentions
   source **
 
 # find a webmention by status id
-#webmentions
-#  status *
+webmentions
+  status *
 
 # find webmentions that have not been verified (verified = 'unverified')
 #webmentions
