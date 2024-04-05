@@ -64,15 +64,19 @@ export default function ui ({ html, state }) {
       <button type=submit>send webmention</button>
     </fieldset>
   </form>
-  <script type=module>
-    customElements.define('admin-ui', class Admin extends HTMLElement {
-      constructor() { super() }
-      connectedCallback() {
-        console.log('hi from admin', this)
-      }
-    })
-  </script>
 
+<script type=module>
+customElements.define('admin-ui', class Admin extends HTMLElement {
+  //constructor() { super() }
+  connectedCallback() {
+    let form = document.querySelector('form[action="/webmention"]')
+    form.onsubmit = function (e) {
+      e.preventDefault()
+      console.log(e.target)
+    }
+  }
+})
+</script>
   <hd-debug></hd-debug>
 </section> `
 }

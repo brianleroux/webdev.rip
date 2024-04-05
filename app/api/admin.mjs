@@ -30,7 +30,7 @@ export async function get (req) {
 
   return {
     json: { 
-      webmentions: res.reduce((a, b) => a.concat(b), []),
+      webmentions: res.reduce((a, b) => a.concat(b.Items), []),
       debug: true,
       loggedIn, 
     }
