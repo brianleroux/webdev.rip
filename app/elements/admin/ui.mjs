@@ -64,37 +64,11 @@ export default function ui ({ html, state }) {
       <button type=submit>send webmention</button>
     </fieldset>
   </form>
-
-<script type=module>
-customElements.define('admin-ui', class Admin extends HTMLElement {
-  constructor() { 
-    super() 
-  }
-  connectedCallback() {
-    let form = this.querySelector('form[action="/webmention"]')
-    console.log('connected', form)
-    form.onsubmit = async function ({target}) {
-      e.preventDefault()
-      let data = new FormData(target)
-      let body = new URLSearchParams(data).toString()
-      console.log(qs)
-      try {
-        let res = await fetch('/webmention', { 
-          method: 'post',
-          headers: {
-            'content-type': 'application/x-www-form-urlencoded;charset=UTF-8'
-          },
-          body
-        })
-        console.log(res)
-      }
-      catch (e) {
-        console.log(e)
-      }
-    }
-  }
-})
-</script>
   <hd-debug></hd-debug>
-</section> `
+</section> 
+
+<script>
+  import Admin from '/_public/browser/admin-ui.mjs'
+  customElements.define('admin-ui', Admin)
+</script>`
 }
