@@ -1,7 +1,7 @@
 import arc from '@architect/functions'
 import idx from 'nanoid'
 
-export let handler = arc.http(endpoint)
+export let handler = arc.http(verify, endpoint)
 
 /** helper to check for valid url */
 function valid (url) {
@@ -14,8 +14,8 @@ function valid (url) {
   }
 }
 
-/** receives webmentions */
-export async function endpoint (req) {
+/** verifies webmention */
+async function verify (req) {
 
   let { source, target } = req.body
 
@@ -34,8 +34,12 @@ export async function endpoint (req) {
       code: 400,
     }
   }
+}
 
-  // TODO check if the target is a valid post
+/** receives webmention */
+async function endpoint (req) {
+
+  let { source, target } = req.body
   console.log(req)
 
   // create our webmention

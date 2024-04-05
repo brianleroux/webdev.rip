@@ -13,12 +13,12 @@ export async function get (req) {
   // load webmentions to verify
   let res = await db.webmentions.query({
     IndexName: 'verified-index',
-    KeyConditionExpression: ':verified = #verified',
+    KeyConditionExpression: '#verified = :verified',
     ExpressionAttributeNames: {
-      ':verified': 'verified'
+      '#verified': 'verified'
     },
     ExpressionAttributeValues: {
-      '#verified': 'unverified'
+      ':verified': 'unverified'
     }
   })
 
