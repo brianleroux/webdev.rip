@@ -64,6 +64,14 @@ export default function ui ({ html, state }) {
       <button type=submit>send webmention</button>
     </fieldset>
   </form>
+  <script type=module>
+    customElements.define('admin-ui', class Admin extends HTMLElement {
+      constructor() { super() }
+      connectedCallback() {
+        console.log('hi from admin', this)
+      }
+    })
+  </script>
 
   <hd-debug></hd-debug>
 </section> `
