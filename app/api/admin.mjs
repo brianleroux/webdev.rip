@@ -1,35 +1,36 @@
 import arc from '@architect/functions'
+import preflight from '../preflight.mjs'
 
 export async function get (req) {
 
   // ensure the current session is logged in
   let loggedIn = req.session.loggedIn
   if (!loggedIn) {
-    return {  
-      loggedIn
-    }
+    return { json: loggedIn }
   }
 
-  // get a db client
+  let data = await preflight()
   let db = await arc.tables()
 
   // load webmentions to verify
-  let res = await db.webmentions.query({
-    IndexName: 'verified-index',
-    KeyConditionExpression: '#verified = :verified',
+  let res = await Promise.all(data.meta.map(post => db.webmentions.query({
+    IndexName: 'target-source-index',
+    KeyConditionExpression: '#target = :target and begins_with(#source, :source)',
     ExpressionAttributeNames: {
-      '#verified': 'verified'
+      '#target': 'target'
+      '#source': 'source'
     },
     ExpressionAttributeValues: {
-      ':verified': 'unverified'
+      ':target': 'webdev.rip' + post.link,
+      ':source': `WM#UNVERIFIED`
     }
-  })
+  })))
 
   return {
     json: { 
+      webmentions: res,
       debug: true,
       loggedIn, 
-      webmentions: res.Count > 0? res.Items : [] 
     }
   }
 }

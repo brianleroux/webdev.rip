@@ -3,33 +3,29 @@ import { nanoid } from 'nanoid'
 
 export let handler = arc.http(verify, endpoint)
 
-/** helper to check for valid url */
-function valid (url) {
-  try {
-    new URL(url)
-    return true
-  } 
-  catch (err) {
-    return false
-  }
-}
-
 /** verifies webmention */
 async function verify (req) {
-
   let { source, target } = req.body
+  try {
+    // cast strings to URL
+    let src = new URL(source)
+    let tar = new URL(target)
 
-  // must check for valid urls
-  if (valid(source) === false || valid(target) === false) {
-    return {
-      code: 400,
+    // remove trailing slash from path
+    let path = {
+      src: src.pathname.replace(/\/+$/g, ''),
+      tar: tar.replace(/\/+$/g, '')
+    }
+
+    // source cannot be same as target
+    if (src.host === tar.host && path.src === path.tar) {
+      return {
+        code: 400,
+      }
     }
   }
-
-  // source cannot be same as target
-  let src = new URL(source)
-  let tar = new URL(target)
-  if (src.host === tar.host && src.pathname.replace(/\/+$/g, '') === tar.replace(/\/+$/g, '')) {
+  catch () {
+    // new URL throws if a URL is invalid
     return {
       code: 400,
     }
@@ -44,8 +40,8 @@ async function endpoint (req) {
 
   // create our webmention
   const webmention = {
-    source: req.body.source,
-    target: req.body.target,
+    source: `WM#UNVERIFIED#${ req.body.source }`,
+    target: req.body.target.replace('https://', ''),
     status: nanoid(8),
     verified: 'unverified',
     created: new Date(Date.now()).toISOString()

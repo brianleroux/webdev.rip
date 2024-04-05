@@ -19,10 +19,11 @@ export async function handler () {
   for (let post of posts) {
 
     // full url for a post
-    let source = 'https://webdev.rip' + post.link
+    let source = 'webdev.rip' + post.link
     let modified = post.update || post.date
 
     // see if the post is in the db (source: url, target: date)
+    console.time('query') 
     let record = await db.webmentions.query({
       KeyConditionExpression: '#source = :source and #target = :target',
       ExpressionAttributeNames: {
@@ -34,6 +35,14 @@ export async function handler () {
         ':target': modified
       }
     })
+    console.timeEnd('query') 
+    console.time('getItem') 
+    let r2 = await db.webmentions.get({
+      source: source,
+      target: modified
+    })
+    console.timeEnd('getItem') 
+    console.log({r2})
 
     // only send mentions if we haven't already
     if (record.Count === 0) { 

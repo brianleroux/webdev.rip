@@ -40,24 +40,27 @@ webmention-receive
   src webmention/receive
 
 @tables
-# find all mentions we sent by post and date (or update)
+# this is for webmentions we send
+#
+# remembers sent webmentions for a given post and date (or update)
 webmentions
-  source *  # String # webdev.rip/notes/first-post
-  target ** # String # 2024-03-29 
-  #status   # String # xxxxxxxx
-  #verified # String # unverified
-  #created  # String # 2024-04-04
+  source *  # webdev.rip/notes/first-post
+  target ** # 2024-03-29 
+  #endpoint # external-website.com/webmention/endpoint
 
 @tables-indexes
-# find all mentions we received (target = webdev.rip)
+# these indexes are for webmentions we receive
+#
+# IndexName: 'target-source-index'
+# find all mentions "target = webdev.rip and begins_with('WM#')"
+# find all unverified "target = webdev.rip and begins_with(:source, 'WM#UNVERIFIED#')"
 webmentions
-  target *
-  source **
+  target *  # webdev.rip/notes/first-post
+  source ** # WM#COMMENT#f.b/z or WM#LIKE#f.b/z or WM#UNVERIFIED#a.b/c
+  #status   # xxxxxxxx
+  #created  # 2024-04-04
 
-# find a webmention by status id
+# IndexName: 'status-index'
+# KeyConditionExpression: '#status = :status'
 webmentions
   status *
-
-# find webmentions that have not been verified (verified = 'unverified')
-webmentions
-  verified * 
