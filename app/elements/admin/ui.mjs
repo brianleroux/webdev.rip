@@ -67,7 +67,9 @@ export default function ui ({ html, state }) {
 
 <script type=module>
 customElements.define('admin-ui', class Admin extends HTMLElement {
-  //constructor() { super() }
+  constructor() { 
+    super() 
+  }
   connectedCallback() {
     let form = document.querySelector('form[action="/webmention"]')
     form.onsubmit = function (e) {
