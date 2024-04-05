@@ -13,7 +13,7 @@ async function send ({ source, target, endpoint }) {
       'content-type': 'application/x-www-form-urlencoded;charset=UTF-8'
     },
     body: (new URLSearchParams({
-      source,
+      source: `https://` + source,
       target
     })).toString()
   })

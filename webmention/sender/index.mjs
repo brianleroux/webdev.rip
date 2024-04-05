@@ -48,7 +48,7 @@ export async function handler () {
     if (record.Count === 0) { 
 
       // read full html text for post url
-      let html = await (await fetch(source)).text()
+      let html = await (await fetch('https://' + source)).text()
      
       // get all the links in the page
       let links = getLinks(html)
