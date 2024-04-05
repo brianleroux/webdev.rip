@@ -1,5 +1,5 @@
 import arc from '@architect/functions'
-import idx from 'nanoid'
+import { nanoid } from 'nanoid'
 
 export let handler = arc.http(verify, endpoint)
 
@@ -39,14 +39,14 @@ async function verify (req) {
 /** receives webmention */
 async function endpoint (req) {
 
-  let { source, target } = req.body
-  console.log(req)
+  // instantiate a db client
+  let db = await arc.tables()
 
   // create our webmention
   const webmention = {
-    source,
-    target,
-    status: idx.nanoid(8),
+    source: req.body.source,
+    target: req.body.target,
+    status: nanoid(8),
     verified: 'unverified',
     created: new Date(Date.now()).toISOString()
   }

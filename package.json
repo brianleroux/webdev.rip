@@ -28,7 +28,7 @@
     }
   },
   "dependencies": {
-    "@architect/sandbox": "^6.0.2",
+    "@architect/sandbox": "^6.0.4",
     "@enhance/arc-plugin-enhance": "^10.0.0",
     "@enhance/image": "^1.0.0",
     "nanoid": "^5.0.6",

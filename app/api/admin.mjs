@@ -4,8 +4,11 @@ export async function get (req) {
 
   // ensure the current session is logged in
   let loggedIn = req.session.loggedIn
-  if (!loggedIn) 
-    return { location: '/' }
+  if (!loggedIn) {
+    return {  
+      loggedIn
+    }
+  }
 
   // get a db client
   let db = await arc.tables()
@@ -24,6 +27,7 @@ export async function get (req) {
 
   return {
     json: { 
+      debug: true,
       loggedIn, 
       webmentions: res.Count > 0? res.Items : [] 
     }

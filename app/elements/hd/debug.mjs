@@ -1,6 +1,9 @@
 export default function debug ({html, state}) {
   if (state.store.debug) {
-    return html`<pre><code>${JSON.stringify(state, null, 2)}</code></pre>`
+    return html`<details>
+      <summary>view state</summary>
+      <pre><code>${JSON.stringify(state, null, 2)}</code></pre>
+    </details>`
   }
   else {
     return ''
