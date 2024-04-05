@@ -42,7 +42,7 @@ export async function handler () {
       target: modified
     })
     console.timeEnd('getItem') 
-    console.log({r2})
+    console.log(r2)
 
     // only send mentions if we haven't already
     if (record.Count === 0) { 
