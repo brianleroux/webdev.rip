@@ -4,17 +4,28 @@ export async function get (req) {
 
   // ensure the current session is logged in
   let loggedIn = req.session.loggedIn
-  if (!loggedIn) return { location: '/' }
+  if (!loggedIn) 
+    return { location: '/' }
+
+  // get a db client
+  let db = await arc.tables()
 
   // load webmentions to verify
-  let db = await arc.tables()
-  let webmentions = await db.webmentions.query({
-    IndexName: 'webmentions-status',
-
+  let res = await db.webmentions.query({
+    IndexName: 'verified-index',
+    KeyConditionExpression: ':verified = #verified',
+    ExpressionAttributeNames: {
+      ':verified': 'verified'
+    },
+    ExpressionAttributeValues: {
+      '#verified': 'unverified'
+    }
   })
 
   return {
-    session: { loggedIn },
-    json: { loggedIn }
+    json: { 
+      loggedIn, 
+      webmentions: res.Count > 0? res.Items : [] 
+    }
   }
 }
