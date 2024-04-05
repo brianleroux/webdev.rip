@@ -56,10 +56,10 @@ export default function ui ({ html, state }) {
       <legend>post /webmention</legend>
       
       <label for=source>source</label>
-      <input type=text name=source>
+      <input type=text id=source name=source>
 
       <label for=target>target</label>
-      <input type=text name=target value=https://webdev.rip/first-post>
+      <input type=text id=target name=target value=https://webdev.rip/first-post>
       
       <button type=submit>send webmention</button>
     </fieldset>
@@ -71,10 +71,21 @@ customElements.define('admin-ui', class Admin extends HTMLElement {
     super() 
   }
   connectedCallback() {
-    let form = document.querySelector('form[action="/webmention"]')
-    form.onsubmit = function (e) {
+    let form = this.querySelector('form[action="/webmention"]')
+    console.log('connected', form)
+    form.onsubmit = async function ({target}) {
       e.preventDefault()
-      console.log(e.target)
+      let data = new FormData(target)
+      let body = new URLSearchParams(data).toString()
+      console.log(qs)
+      let res = await fetch('/webmention', { 
+        method: 'post',
+        headers: {
+          'content-type': 'application/x-www-form-urlencoded;charset=UTF-8'
+        },
+        body
+      })
+      console.log(res)
     }
   }
 })
