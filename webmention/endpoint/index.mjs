@@ -6,6 +6,7 @@ export let handler = arc.http(verify, endpoint)
 /** verifies webmention */
 async function verify (req) {
   let { source, target } = req.body
+  console.log({source,target})
   try {
     // cast strings to URL
     let src = new URL(source)
@@ -24,8 +25,9 @@ async function verify (req) {
       }
     }
   }
-  catch {
+  catch (e) {
     // new URL throws if a URL is invalid
+    console.log(e) 
     return {
       code: 400,
     }
