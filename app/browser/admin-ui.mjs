@@ -9,7 +9,7 @@ export default class Admin extends HTMLElement {
     e.preventDefault()
     let data = new FormData(e.target)
     let body = new URLSearchParams(data).toString()
-    console.log(qs)
+    console.log(body)
     fetch('/webmention', { 
       method: 'post',
       headers: {

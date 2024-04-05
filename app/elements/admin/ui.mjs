@@ -64,6 +64,7 @@ export default function ui ({ html, state }) {
       <button type=submit>send webmention</button>
     </fieldset>
   </form>
+  <h2>Unverified webmentions</h2>
   <hd-debug></hd-debug>
 </section> 
 
