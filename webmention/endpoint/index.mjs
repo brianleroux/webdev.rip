@@ -15,7 +15,7 @@ async function verify (req) {
     // remove trailing slash from path
     let path = {
       src: src.pathname.replace(/\/+$/g, ''),
-      tar: tar.replace(/\/+$/g, '')
+      tar: tar.pathname.replace(/\/+$/g, '')
     }
 
     // source cannot be same as target
