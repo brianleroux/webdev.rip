@@ -32,7 +32,7 @@ async function read (req) {
       },
       ExpressionAttributeValues: {
         ':target': 'webdev.rip' + post.link,
-        ':source': `WM#UNVERIFIED`
+        ':source': `UNVERIFIED#`
       }
     })
   }))

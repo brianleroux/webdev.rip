@@ -6,7 +6,6 @@ export let handler = arc.http(verify, endpoint)
 /** verifies webmention */
 async function verify (req) {
   let { source, target } = req.body
-  console.log({source,target})
   try {
     // cast strings to URL
     let src = new URL(source)
@@ -42,7 +41,7 @@ async function endpoint (req) {
 
   // create our webmention
   const webmention = {
-    source: `WM#UNVERIFIED#${ req.body.source }`,
+    source: `UNVERIFIED#${ req.body.source.replace('https://', '') }`,
     target: req.body.target.replace('https://', ''),
     status: nanoid(8),
     verified: 'unverified',
