@@ -27,7 +27,7 @@ let css = `
 
 body {
   font-family: system-ui, "Segoe UI", Roboto, Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
-  font-size: 120%;
+  /*font-size: 120%;*/
   color: var(--foreground);
   background: var(--background);
 }

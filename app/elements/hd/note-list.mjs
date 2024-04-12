@@ -18,7 +18,6 @@ export default function notelist ({html, state}) {
   display: flex;
 }
 :host time {
-  width:150px;
   text-align: right;
   margin-right: 10px;
 }

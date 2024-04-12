@@ -46,7 +46,7 @@ blockquote {
     </details>
     <p class=p-summary style=display:none;>${ meta.summary }</p>
     <section class=e-content><slot></slot></section>
-    <p>${tags}</p>
+    <p style="display:flex;flex-wrap:wrap;">${tags}</p>
     <hd-avatar>on ${ meta.date }</hd-avatar>
   </article>
 </hd-layout>`

@@ -22,8 +22,10 @@ export default function form ({ html, state }) {
 
 :host details > form {
   margin: 0;
-  padding: 0;
+  padding: 20px ;
   color: darkgrey;
+  display:flex;
+  flex-wrap:wrap;
 }
 
 :host details > form p {
@@ -37,8 +39,8 @@ export default function form ({ html, state }) {
   font-family: monospace;
   border: 1px solid lightgrey;
   border-radius: 5px;
-  min-width: 450px;
-  margin: 0 0 10px 10px;
+  width: 100vw;
+  margin: 0 0 10px 0;
 }
 
 :host button[type=submit] {
