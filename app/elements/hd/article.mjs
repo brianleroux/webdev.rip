@@ -4,6 +4,10 @@ export default function article ({state, html }) {
     return n.link === state.store.link
   })
 
+  let tags = meta.tags.map(function (t) {
+    return `<hd-tag value=${t}></hd-tag>`
+  }).join('')
+
   return html`<style>
 
 h1, h2, h3, h4, h5, h6 {
@@ -35,11 +39,16 @@ blockquote {
 <hd-layout>
   <article class=h-entry>
     <h1 class=p-name>${ meta.title }</h1>
+      <hd-webmention-form 
+        problem="${ state.store.problem || '' }"
+        likes=0
+        comments=0></hd-webmention-form>
+    </details>
     <p class=p-summary style=display:none;>${ meta.summary }</p>
     <section class=e-content><slot></slot></section>
+    <p>${tags}</p>
     <hd-avatar>on ${ meta.date }</hd-avatar>
   </article>
-  <hd-debug></hd-debug>
 </hd-layout>`
 }
 

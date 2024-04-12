@@ -23,6 +23,7 @@ async function read (req) {
 
   // load webmentions to verify
   let res = await Promise.all(data.meta.map(post => {
+    let target = 'webdev.rip' + post.link
     return db.webmentions.query({
       IndexName: 'target-source-index',
       KeyConditionExpression: '#target = :target and begins_with(#source, :source)',
@@ -31,7 +32,7 @@ async function read (req) {
         '#source': 'source'
       },
       ExpressionAttributeValues: {
-        ':target': 'webdev.rip' + post.link,
+        ':target': target,
         ':source': `UNVERIFIED#`
       }
     })
@@ -48,11 +49,18 @@ async function read (req) {
 
 /** currently...a place to send payloads to webmention-receive */
 async function write (req) {
-  await arc.events.publish({
-    name: 'webmention-receive',
-    payload: req.body 
-  }) 
+  if (req.body.action === 'reload') {
+    await arc.events.publish({
+      name: 'webmention-receive',
+      payload: req.body 
+    }) 
+  }
+  if (req.body.action === 'delete') {
+    let db = await arc.tables()
+    let { source, target } = req.body
+    await db.webmentions.delete({source, target})
+  }
   return { 
-    json: { loggedIn: req.session.loggedIn }
+    location: '/admin'
   }
 }

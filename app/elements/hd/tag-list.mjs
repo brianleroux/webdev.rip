@@ -1,6 +1,6 @@
 export default function taglist ({html, state}) {
   let concat = (a, b) => a.concat(b)
-  let link = t=> `<li><a href=/tags/${t}>${t}</a></li>`
+  let link = t=> `<hd-tag value=${t}></hd-tag>`
   let items = [...new Set(state.store.meta.map(m=> m.tags).reduce(concat, []))]
-  return html`<h2>Tags</h2><ul>${ items.map(link).join('') }</ul>`
+  return html`<h2>Tags</h2><p>${ items.map(link).join('') }</p>`
 }

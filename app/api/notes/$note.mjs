@@ -33,14 +33,28 @@ export async function get (req) {
     ? 'max-age=3600;'
     : 'no-cache, no-store, must-revalidate, max-age=0, s-maxage=0'
 
+  // copy the session
+  let session = {...req.session}
+
+  // if there is a problem, extract it from the session
+  let problem = '' 
+  if (req.session.problem) {
+    problem = req.session.problem
+    delete session.problem
+  }
+
+  let thx = req.query.wm? 'Thanks for sharing' : ''
+
   // return the response
   return {
+    session,
     headers: { 
       'cache-control': cacheControl 
     },
-    json: { 
-      debug: false, 
+    json: {
+      thx,
       note,
+      problem,
       link: `/notes/${ link.replace('.html', '') }`
     }
   }

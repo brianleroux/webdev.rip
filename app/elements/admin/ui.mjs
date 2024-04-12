@@ -59,17 +59,12 @@ export default function ui ({ html, state }) {
       <input type=text id=source name=source>
 
       <label for=target>target</label>
-      <input type=text id=target name=target value=https://webdev.rip/first-post>
+      <input type=text id=target name=target value=https://webdev.rip/notes/first-post>
       
       <button type=submit>send webmention</button>
     </fieldset>
   </form>
-  <h2>Unverified webmentions</h2>
+  <admin-unverified></admin-unverified>
   <hd-debug></hd-debug>
-</section> 
-
-<script type=module>
-  import Admin from '/_public/browser/admin-ui.mjs'
-  customElements.define('admin-ui', Admin)
-</script>`
+</section>`
 }
