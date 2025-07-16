@@ -53,6 +53,7 @@ export async function get (req) {
     },
     json: {
       thx,
+      count: req.session.count || 0,
       note,
       problem,
       link: `/notes/${ link.replace('.html', '') }`

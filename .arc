@@ -1,12 +1,19 @@
 @app
 webdev-rip
 
-@begin
-appID K7833DPN
+@aws
+profile webdevrip
+region us-west-2
+
+@dns
+staging b4.webdev.rip
+production webdev.rip
+zone Z0059404NSO532R0MZXB
 
 @plugins
 enhance/arc-plugin-enhance
 enhance/arc-image-plugin
+arc-plugin-custom-domain
 
 @http
 # standalone route for rendering og images

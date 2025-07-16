@@ -29,8 +29,9 @@
   },
   "dependencies": {
     "@architect/sandbox": "^6.0.4",
-    "@enhance/arc-plugin-enhance": "^10.0.0",
+    "@enhance/arc-plugin-enhance": "^11.0.4",
     "@enhance/image": "^1.0.0",
+    "arc-plugin-custom-domain": "^0.0.1",
     "nanoid": "^5.0.6",
     "prismjs": "^1.29.0"
   }

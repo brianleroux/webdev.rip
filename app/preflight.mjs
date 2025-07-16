@@ -30,9 +30,25 @@ export default function preflight () {
         title: 'Implementing Open Graph', 
         summary: 'Building out dynamic Open Graph images with AWS Lambda.',
         link: '/notes/implementing-open-graph', 
-        tags: ['webdev', 'opengraph', 'serverless'],
+        tags: ['webdev', 'opengraph', 'serverless', 'backend'],
         date: '2024-04-03' 
       },
+      {  
+        title: 'JS Modules', 
+        summary: 'How to author a JavaScript module.',
+        link: '/notes/js-modules', 
+        tags: ['webdev', 'backend', 'js', 'node', 'deno'],
+        date: '2024-04-03' 
+      }, 
+
+      {
+        title: 'WTF Sessions', 
+        summary: 'WTF are sessions? Why should I care? How do they work?',
+        link: '/notes/wtf-sessions', 
+        tags: ['webdev', 'backend', 'js', 'node', 'deno', 'sessions'],
+        date: '2024-07-15' 
+
+      }
     ]
   }
 }

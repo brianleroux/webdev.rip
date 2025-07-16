@@ -1,7 +1,10 @@
 import prism from 'prismjs'
+import load from 'prismjs/components/index.js'
 import {parse, serialize} from 'parse5'
 
 export default function note ({state}) {
+
+  load(['bash', 'http'])
 
   // format dates pretty
   for (let n of state.store.meta)
@@ -15,8 +18,10 @@ export default function note ({state}) {
       if (n.nodeName === 'hd-code' && n.tagName === 'hd-code') {
         let raw = n.childNodes[0].value
         let languages = {
+          bash: Prism.languages.bash,
           javascript: Prism.languages.javascript,
           html: Prism.languages.html,
+          http: Prism.languages.http,
           css: Prism.languages.css,
         }
         let lang = n.attrs.find(a => a.name = 'type').value

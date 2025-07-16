@@ -1,0 +1,55 @@
+<hd-article>
+  <p>What is the deal with sessions? Why are sessions important to me? How do I implement them?</p>
+
+  <h2>The deal with sessions</h2>
+  <p>The web is a stateless protocol. If we navigate to a new page, or even refreshing the same page, the defautl browser semantics do not persist state. Sessions are a way to track interactions across page loads. Said another way <strong>Hyper Text Transfer Protocol</strong> (HTTP) does know what a user agent is doing between page loads. This becomes a problem if we do need to keep track of state navigating between pages. The classic example is a shopping cart. But session is also massively imporant to understand how auth security works.</p>
+
+  <h2>Why sessions are important</h2>
+  <p>In the past decade or so many developers onboarded to web dev by learning about single page applications which often skip session state concerns. After all, if you aren't navigating, you don't really need to know or care about session, right? Unfortunately, as we've all felt, this leads to a poor end user experience. When a page reload happens on purpose (or accident) state is lost. Sometimes it is just a simple thing like a particular selected item in a list. Sometimes its an entire form of details I did not want to have to retype again. <strong>Sessions are a crucial primitive for creating bulletproof web consumer experiences that prevents these sorts of poor user experiences</strong>.</p>
+  
+  <h2>Implementing a session</h2>
+  <p>Most web server runtime environments will have a <code>session</code> primitive built-in but to help you understand what they are we'll implement sessions completely from scratch.</p>
+
+  <p>We need a way to track user interactions between page reloads. There are a few ways to do this but most web apps use <a href="https://developer.mozilla.org/en-US/docs/Web/HTTP/Cookies">HTTP cookies</a>. One big reason is that cookies are read only from clientside JavaScript which means third party code cannot tamper with state.</p> 
+  
+<hd-code type=javascript>
+console.log(document.cookie)
+// logs "session_cookie=xxx"
+
+document.cookie = "session_cookie=yyy"
+
+console.log(document.cookie)
+// logs "session_cookie=xxx"
+</hd-code>
+
+  <p>At the lowest level, cookies are created, and updated, with the <code>set-cookie</code> header. </p>
+
+<hd-code type=http>
+Set-Cookie: session_cookie=xxx; HttpOnly
+</hd-code>
+
+<p>Cookies are deleted by setting the expired property.</p>
+
+<hd-code type=http>
+Set-Cookie: session_cookie=xxx; Expires=1 Jan 2020 01:00:00 GMT; HttpOnly
+</hd-code>
+
+<p>When a new request is made, the browser sends previously stored cookies for the current domain back to the server with the <code>Cookie</code> header:</p>
+
+<hd-code type=http>
+GET /index.html HTTP/2.0
+Host: www.example.com
+Cookie: session_cookie=xxx
+</hd-code>
+
+<p>HTTPonly cookies are an elegent solution for implementing session but only half the solution. We still need to consider how we're going to persist state on the backend.</p>
+
+  <h2>Saving session state</h2>
+  <p>Typically, sessions are either durably persisted in a backend database and the cookie is used to look the values up, or encoded directly into the cookie state. One isn't explicitly better than the other but both techniques have tradeoffs. Database backed sessions can be as large as you want but of course then require talking to a database which can introduce latency. Sessions saved in cookie state can only be 4KB but will need to be crypographically verified and somewhat frequently expired/refreshed. Again, these are just tradeoffs, and generally I think its probably easiest to start with stateless sessions and grow into database backed sessions if the application needs grow complex enough to justify it. A good framework will make it pretty straightforward to switch. (It is very easy to upgrade with <a href=https://arc.codes/docs/en/guides/frontend/sessions#storage-medium>OpenJS Architect</a>.)</p>
+
+  <h2>Implementing `Session` with node.js</h2>
+  <p>Ok lets build a counter example! The end result is a page that tracks a counter across page refreshes.</p>
+  
+  <hd-counter></hd-counter>
+
+</hd-article>

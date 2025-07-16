@@ -1,0 +1,62 @@
+<hd-article>
+
+<p>This is how I personally like to approach authoring JavaScript code these days. The approach here is largely downstream making decisions that minimize maintenance by prioritizing stability and longevity. You might make different decisions with different goals. That's ok. The primary strength of the JavaScript ecosystem is diversity. Options are good and there are many paths up the mountain. That said, I think the goals I have are unfortunately uncommon, so you may find you disagree with this approach.</p>
+
+<p>First of all, we need to understand our scope. Publishing a utity function module to <a href=https://npmjs.com>npm</a> and <a href=https://jsr.io>jsr</a> is goinkg to be different than publishing a website driven by a dynamic backend runtime like <a href=https://nodejs.org>node</a> or <a href=https://deno.land>deno</a>. In either cases, however, I start with the simplest thing that could possibly work and iterate from there.</p>
+
+<h2>Part 1: Boilerplate</h2>
+
+<p>Create a directory for our module, with a <code>readme.md</code> and <code>package.json</code>. </p>
+
+<hd-code type=bash># in your terminal of choice
+
+mkdir flatten
+echo "# flatten" >  readme.md
+echo {} > package.json
+</hd-code>
+
+<p>A lowercase <code>reademe.md</code> is chill; no need to SHOUT! Besides, some operating systems are case sensitive while others are not. Its always a lot safer to keep files and directories lowcase, and dasherized. Another benefit is all our paths are URL friendly when they get published to the web on Github later on.</p>
+
+<h2>Part 2: Code</h2>
+
+<p>JavaScript is a famously loose language. That flexability can be a source of bugs. It is worth noting that tools can also be a source of bugs. Its really easy to sucked into adding too many guardrails.</p>
+
+<h3>Lint and Format</h3>
+
+<p>In the past I've mostly used <code>eslint</code> but with the recent 9.x upgrade configuration changed and that invited me to evaluate other options given I was starting fresh anyhow. I found that I really like the speed and output of Biome. Special mention: OXC and <code>deno lint</code>; both of these tools felt a bit immature but worth watching. End of the day it probably isn't super important which tools you use as long as you remain consistent in their usage.</p>
+
+<hd-code type=bash>
+npm i -D @biomejs/biome
+</hd-code>
+
+<h3>Typesafety</h3>
+
+<p>TypeScript (TS) makes JavaScript more rigid which can prevent <em>some bugs</em>, and make refactoring easier. Arguably by being more rigid TS also makes code more brittle. Finding issues early is always the name of the game so this tradeoff is often deemed worthwhile. That said, it is very tempting to go overboard on TS tooling. I personally prefer using TS with JSDoc. We get the autocompletion and the intellisense hinting without suffering through the nightmare of configuring and debugging transpiled code. TS notoriously ships breaking changes on semver minor which also can make maintenance more difficult, and by using JSDoc I can avoid this problem too.</p>
+
+<h3>Tests</h3>
+
+<p>I like to start basic. `node:test` is great for this.</p>
+
+stub in our function
+
+<hd-code type=javascript>
+/** @type {(o: object) => object} */
+export default function flatten (obj) {
+  const copy = {...obj}
+  return copy
+}
+</hd-code>
+
+many choices need to be made here. single responsiblilyt principle is a really good idea that pairs well with iterating from the simplest thing. i chose to export a single default function so the file does not need to be opened to know what this module does. it is a flatten function. i chose `.mjs` to denote this is an esmodule to the node.js runtime. we could have also set `type` to `modue` in `package.json`. i like the explicitness and clarity of the file extension personally. another situation where I can understand the runtime semantics at a glance withouth relying on opening unrelated files.
+
+But how do we know if it works?
+
+<h2>Part 2: Publishing</h2>
+
+. setup ci/cd with Github Actions
+Publishing to npm
+Publishing to jsr
+
+<h2>Part 3: Online REPL usage</h2>
+
+</hd-article>
